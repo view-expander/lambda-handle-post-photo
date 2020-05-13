@@ -13,15 +13,14 @@ describe('handler()', () => {
     mock.restore()
   })
 
-  it('resoleves dummy response', async () => {
-    expect.assertions(1)
-
+  it('calls callback', async () => {
+    const callback = jest.fn()
+    const flush = () => new Promise((resolve) => setTimeout(resolve, 0))
     mock.onPost(`${process.env.API_PATH}/skeleton?key=test/key`).reply(200, {
       ETag: '1123456789abcdef0123456789abcdef',
     })
-
-    return expect(
-      handler({
+    handler(
+      {
         Records: [
           {
             eventVersion: '2.0',
@@ -59,7 +58,14 @@ describe('handler()', () => {
             },
           },
         ],
-      })
-    ).resolves.toMatchSnapshot()
+      },
+      {} as any,
+      callback
+    )
+    await flush()
+
+    return expect(callback).toHaveBeenCalledWith(undefined, {
+      ETag: '1123456789abcdef0123456789abcdef',
+    })
   })
 })

@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`handler() resoleves dummy response 1`] = `
-Object {
-  "body": "{\\"ETag\\":\\"1123456789abcdef0123456789abcdef\\"}",
-  "statusCode": 200,
-}
-`;
