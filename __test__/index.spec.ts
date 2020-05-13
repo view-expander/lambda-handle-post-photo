@@ -1,8 +1,25 @@
+import axios from 'axios'
+import MockAdapter from 'axios-mock-adapter'
 import { handler } from '../src'
 
 describe('handler()', () => {
+  let mock: MockAdapter
+
+  beforeEach(() => {
+    mock = new MockAdapter(axios)
+  })
+
+  afterEach(() => {
+    mock.restore()
+  })
+
   it('resoleves dummy response', async () => {
     expect.assertions(1)
+
+    mock.onPost(`${process.env.API_PATH}/skeleton?key=test/key`).reply(200, {
+      ETag: '1123456789abcdef0123456789abcdef',
+    })
+
     return expect(
       handler({
         Records: [
@@ -43,9 +60,6 @@ describe('handler()', () => {
           },
         ],
       })
-    ).resolves.toEqual({
-      statusCode: 200,
-      body: JSON.stringify({}),
-    })
+    ).resolves.toMatchSnapshot()
   })
 })
