@@ -11,9 +11,9 @@ export function handler(
   }
 
   axios
-    .post<{ ETag: string }>(
-      `${process.env.API_PATH}/skeleton?key=${Records[0].s3.object.key}`
-    )
+    .post<{ ETag: string }>(`${process.env.API_PATH}/skeleton`, {
+      key: Records[0].s3.object.key,
+    })
     .then((res) => callback(undefined, res.data))
     .catch(callback)
 }

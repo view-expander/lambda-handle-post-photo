@@ -16,7 +16,7 @@ describe('handler()', () => {
   it('calls callback', async () => {
     const callback = jest.fn()
     const flush = () => new Promise((resolve) => setTimeout(resolve, 0))
-    mock.onPost(`${process.env.API_PATH}/skeleton?key=test/key`).reply(200, {
+    mock.onPost(`${process.env.API_PATH}/skeleton`).reply(200, {
       ETag: '1123456789abcdef0123456789abcdef',
     })
     handler(
