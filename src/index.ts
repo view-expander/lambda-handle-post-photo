@@ -12,7 +12,7 @@ export function handler(
 
   axios
     .post<{ ETag: string }>(`${process.env.API_PATH}/skeleton`, {
-      key: Records[0].s3.object.key,
+      key: Records[0].s3.object.key.replace('^source/(.+)$', '$1'),
     })
     .then((res) => callback(undefined, res.data))
     .catch(callback)
